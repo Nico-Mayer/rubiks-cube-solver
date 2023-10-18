@@ -1,75 +1,116 @@
-from os import name
-from tracemalloc import start
 import cv2
 import numpy as np
+import kociemba
+
+""" SOLVED_CUBE = "UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB"
+solution = kociemba.solve(SOLVED_CUBE)
+print(solution) """
 
 RECT_SIZE = 120
 RECT_SPACING = 10
-CAM_INDEX = 0
+CAM_INDEX = 1
 COLORS = {
-    'blue': (90, 56, 26),  
-    'green': (113, 191, 81),
-    'white': (136, 162, 147),
-    'red': (43, 51, 174),
-    'orange': (49, 96, 194),
-    'yellow': (36, 144, 173)
+    'B': (90, 56, 26),  
+    'G': (113, 191, 81),
+    'W': (136, 162, 147),
+    'R': (43, 51, 174),
+    'O': (49, 96, 194),
+    'Y': (36, 144, 173)
 }
+MAPPING = {
+    'W': 'F',
+    'B': 'L',
+    'G': 'R',
+    'Y': 'B',
+    'O': 'D',
+    'R': 'U'
+}
+
+class Cube:
+    state = list("000000000000000000000000000000000000000000000000000000000000")
+    
+    def get_color_string(self):
+        color_string = ""
+        for char in self.state:
+            if char == "F":
+                color_string += "W"
+            elif char == "L":
+                color_string += "B"
+            elif char == "R":
+                color_string += "G"
+            elif char == "B":
+                color_string += "Y"
+            elif char == "D":
+                color_string += "O"
+            elif char == "U":
+                color_string += "R"
+            else:
+                color_string += "error"
+        return color_string
+    
+
+cube = Cube()
 
 cap = cv2.VideoCapture(CAM_INDEX)
 enter_pressed = False
-average = [0,0,0]
 scanned_sides = 0
-
-blue_side = np.empty((3, 3), dtype=object)
-white_side = np.empty((3, 3), dtype=object)
-green_side = np.empty((3, 3), dtype=object)
-yellow_side = np.empty((3, 3), dtype=object)
-orange_side = np.empty((3, 3), dtype=object)
-red_side = np.empty((3, 3), dtype=object)
 
 def euclidean_distance(color1, color2):
     return np.linalg.norm(np.array(color1) - np.array(color2))
 
-def calc_average(color):
-    average[0] += color[0]
-    average[1] += color[1]
-    average[2] += color[2]
-
-
 def render_side(frame, index):
-    start_x = 75
-    start_y = 10 + (index * 72)
     cell_size = 20
     spacing = 2
-    side, name = get_side(index)
+    
 
-    if index == 4:
-        start_x =  147
-        start_y = 82
-    if index == 5:
-        start_x =  5
-        start_y = 82
-
+    # Up
+    if index == 0:
+        start_x = 80
+        start_y = 15
+    # Right
+    elif index == 1:
+        start_x = 150
+        start_y = 85
+    # Front
+    elif index == 2:
+        start_x = 80
+        start_y = 85
+    # Down
+    elif index == 3:
+        start_x = 80
+        start_y = 155
+    # Left
+    elif index == 4:
+        start_x = 10
+        start_y = 85
+    # Back
+    elif index == 5:
+        start_x = 220
+        start_y = 85
+        
     for row in range(3):
         for col in range(3):
             x = start_x + col * (cell_size + spacing)
             y = start_y + row * (cell_size + spacing)
-            val = side[row][col]
-            color = (0,0,0)
-            if val == "blue":
+            val = cube.get_color_string()[index * 9 + row * 3 + col] 
+            if val == "B":
                 color = (255,0,0)
-            elif val == "red":
+            elif val == "R":
                 color = (0,0,255)
-            elif val == "green":
+            elif val == "G":
                 color=(0,255, 0)
-            elif val == "yellow":
+            elif val == "Y":
                 color=(0,255,255)
-            elif val == "orange":
+            elif val == "O":
                 color=(0,165,255)
-            elif val == "white":
+            elif val == "W":
                 color=(255,255,255)
+            else:
+                color=(0,0,0)
                 
-            cv2.rectangle(frame, (x, y), (x + cell_size, y + cell_size), color, -1)           
+            cv2.rectangle(frame, (x, y), (x + cell_size, y + cell_size), color, -1)         
+    if index == scanned_sides:
+        cv2.rectangle(frame, (start_x - 2 , start_y - 2), (start_x + 65, start_y + 65), (0, 255, 0), 2)  
 
 def render_cube(frame):
     for i in range(6):
@@ -78,41 +119,14 @@ def render_cube(frame):
 
 def render_ui(frame):
     height, width, _ = frame.shape
-    side, name = get_side(scanned_sides)
     if scanned_sides <= 5:
-        cv2.putText(frame,f"Scan {name} Side ({scanned_sides}/6): ", (15, height - 15),2,1.0,(0,255,0))
+        cv2.putText(frame,f"Scan side ({scanned_sides}/6): ", (15, height - 15),2,1.0,(0,255,0))
     else:
         cv2.putText(frame,f"Scan complete", (15, height - 15),2,1.0,(0,255,0))
     
     render_cube(frame)
     
-def get_side(index):
-    if index == 0:
-        return blue_side, "blue"
-    elif index == 1:
-        return white_side, "white"
-    elif index == 2:
-        return green_side, "green"
-    elif index == 3:
-        return yellow_side, "yellow"
-    elif index == 4:
-        return orange_side, "orange"
-    elif index == 5:
-        return red_side, "red"
-    else:
-        return None, "None"
-
-def fill_side(color, row, col):
-    side, name = get_side(scanned_sides)
-    side[row][col] = color
     
-def print_cube():
-    print(f"Blue Side:\n {blue_side}")
-    print(f"White Side:\n {white_side}")
-    print(f"Green Side:\n {green_side}")
-    print(f"Yellow Side:\n {yellow_side}")
-    print(f"Orange Side:\n {orange_side}")
-    print(f"Red Side:\n {red_side}")
 
 while True:
     ret, frame = cap.read()
@@ -137,20 +151,15 @@ while True:
                 sub_rect = frame[y:y + RECT_SIZE, x:x + RECT_SIZE]
                 dominant_color = np.uint8(np.mean(sub_rect, axis=(0, 1)))
                 closest_color = min(COLORS, key=lambda color: euclidean_distance(COLORS[color], dominant_color))
-                calc_average(dominant_color)
-                fill_side(closest_color, row, col)
-                # print(f"Rectangle {row * 3 + col + 1}: Dominant Color (BGR): {dominant_color},{closest_color}")
+                cube.state[row * 3 + col + scanned_sides * 9] = MAPPING[closest_color]
+
     if enter_pressed:
-        print(f"Average: {average[0]//9},{average[1]//9},{average[2]//9}")
-        if scanned_sides == 6:
-            print_cube()
-        elif scanned_sides <= 5:
+        print(''.join(cube.state))
+        if scanned_sides <= 5:
             scanned_sides += 1
-        average = [0,0,0]
     enter_pressed = False
     
     cv2.imshow('Camera Feed', frame)
-	
 
     key = cv2.waitKey(1)
     if key == ord('q'):
@@ -158,8 +167,6 @@ while True:
     elif key == 13:  
         print(" ")
         enter_pressed = True
-    
-
     
 cap.release()
 cv2.destroyAllWindows()
