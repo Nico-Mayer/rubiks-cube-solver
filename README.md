@@ -1,3 +1,3 @@
-# bme_interaktion
-# bme_interaktion
-# bme_interaktion
+# BME Interaktion
+
+Code for my rubiks cube solving robot.
