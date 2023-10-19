@@ -1,0 +1,18 @@
+{
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"**/.classpath": true,
+		"**/.project": true,
+		"**/.settings": true,
+		"**/.factorypath": true
+	},
+	"hide-files.files": [],
+	"cSpell.words": ["dtype", "imread", "kociemba", "linalg"],
+	"python.analysis.typeCheckingMode": "off",
+	"python.analysis.autoImportCompletions": true
+}

@@ -1,15 +1,21 @@
 import cv2
 import numpy as np
-import kociemba
-
-""" SOLVED_CUBE = "UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB"
-solution = kociemba.solve(SOLVED_CUBE)
-print(solution) """
+from cube import Cube
+from utils import euclidean_distance
 
 RECT_SIZE = 120
 RECT_SPACING = 10
 CAM_INDEX = 1
+
 COLORS = {
+    'B': (255, 0, 0),
+    'G': (0, 255, 0),
+    'W': (255, 255, 255),
+    'R': (0, 0, 255),
+    'O': (0, 165, 255),
+    'Y': (0, 255, 255)
+}
+CALIBRATED_COLORS = {
     'B': (90, 56, 26),  
     'G': (113, 191, 81),
     'W': (136, 162, 147),
@@ -26,43 +32,14 @@ MAPPING = {
     'R': 'U'
 }
 
-class Cube:
-    state = list("000000000000000000000000000000000000000000000000000000000000")
-    
-    def get_color_string(self):
-        color_string = ""
-        for char in self.state:
-            if char == "F":
-                color_string += "W"
-            elif char == "L":
-                color_string += "B"
-            elif char == "R":
-                color_string += "G"
-            elif char == "B":
-                color_string += "Y"
-            elif char == "D":
-                color_string += "O"
-            elif char == "U":
-                color_string += "R"
-            else:
-                color_string += "error"
-        return color_string
-    
-
 cube = Cube()
-
 cap = cv2.VideoCapture(CAM_INDEX)
 enter_pressed = False
 scanned_sides = 0
 
-def euclidean_distance(color1, color2):
-    return np.linalg.norm(np.array(color1) - np.array(color2))
-
 def render_side(frame, index):
     cell_size = 20
     spacing = 2
-    
-
     # Up
     if index == 0:
         start_x = 80
@@ -126,8 +103,6 @@ def render_ui(frame):
     
     render_cube(frame)
     
-    
-
 while True:
     ret, frame = cap.read()
 
@@ -145,16 +120,19 @@ while True:
         for col in range(3):
             x = start_x + col * (RECT_SIZE + RECT_SPACING)
             y = start_y + row * (RECT_SIZE + RECT_SPACING)
+            sub_rect = frame[y:y + RECT_SIZE, x:x + RECT_SIZE]
+            dominant_color = np.uint8(np.mean(sub_rect, axis=(0, 1)))
+            closest_color = min(CALIBRATED_COLORS, key=lambda color: euclidean_distance(CALIBRATED_COLORS[color], dominant_color))
+
             cv2.rectangle(frame, (x, y), (x + RECT_SIZE, y + RECT_SIZE), (0, 255, 0), 2)
             cv2.putText(frame,f"{row * 3 + col + 1}", (x + RECT_SIZE - 15, y + RECT_SIZE - 5),1,1.5,(0,255,0))
+            cv2.putText(frame,f"{closest_color}", (x + RECT_SIZE // 2, y + RECT_SIZE // 2),1,1.5,COLORS[closest_color],2)
+
             if enter_pressed and scanned_sides <= 5:
-                sub_rect = frame[y:y + RECT_SIZE, x:x + RECT_SIZE]
-                dominant_color = np.uint8(np.mean(sub_rect, axis=(0, 1)))
-                closest_color = min(COLORS, key=lambda color: euclidean_distance(COLORS[color], dominant_color))
                 cube.state[row * 3 + col + scanned_sides * 9] = MAPPING[closest_color]
 
     if enter_pressed:
-        print(''.join(cube.state))
+        print(cube)
         if scanned_sides <= 5:
             scanned_sides += 1
     enter_pressed = False
