@@ -1,14 +1,16 @@
 import cv2
 import numpy as np
+
+from colors import CALIBRATED_COLORS, COLORS, MAPPING
 from cube import Cube
-from utils import euclidean_distance, render_text, render_rect, play_audio
-from ui import UI
-from colors import COLORS, CALIBRATED_COLORS, MAPPING
 from system_state import MODE, SELECTED_SIDE
+from ui import UI
+from utils import euclidean_distance, render_rect, render_text
 
 RECT_SIZE = 120
 RECT_SPACING = 10
 CAM_INDEX = 1
+
 
 def calibrate(frame, pressed_key):
     height, width, _ = frame.shape
@@ -37,10 +39,17 @@ def scan(frame, cube, row, col, side_index, pressed_key):
 
     render_rect(frame, (x, y), RECT_SIZE, RECT_SIZE, COLORS[closest_color], 2)
     render_text(frame, f"{row * 3 + col + 1}", (x + RECT_SIZE - 20, y + RECT_SIZE - 10))
-    render_text(frame, f"{closest_color}", (x + RECT_SIZE // 2 - 5, y + RECT_SIZE // 2 + 5), COLORS[closest_color], 0.7)
+    render_text(
+        frame,
+        f"{closest_color}",
+        (x + RECT_SIZE // 2 - 5, y + RECT_SIZE // 2 + 5),
+        COLORS[closest_color],
+        0.7,
+    )
 
     if pressed_key == 13 and side_index <= 5:
         cube.state[row * 3 + col + side_index * 9] = MAPPING[closest_color]
+
 
 def handle_keypress(pressed_key, cube, selected_side, mode):
     if pressed_key == ord("q"):
@@ -59,6 +68,7 @@ def handle_keypress(pressed_key, cube, selected_side, mode):
     elif pressed_key == ord("r"):
         cube.reset_side(selected_side.get_index())
     return True
+
 
 def main():
     cube = Cube()
@@ -89,6 +99,7 @@ def main():
         cv2.imshow("Camera Feed", frame)
     cap.release()
     cv2.destroyAllWindows()
+
 
 if __name__ == "__main__":
     main()

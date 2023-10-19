@@ -26,6 +26,7 @@ class MODE:
     def is_scan(self):
         return self.mode == MODE.SCAN
 
+
 class SELECTED_SIDE:
     index = 0
 
@@ -36,7 +37,6 @@ class SELECTED_SIDE:
 
     def get_index(self):
         return self.index
-    
+
     def get_side(self):
         return ["UP", "Right", "Front", "Down", "Left", "Back"][self.index]
-
