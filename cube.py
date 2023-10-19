@@ -33,3 +33,10 @@ class Cube:
             return kociemba.solve(''.join(self.state))
         except:
             return "error"
+    
+    def reset_full(self):
+        self.state = list("000000000000000000000000000000000000000000000000000000")
+
+    def reset_side(self, side):
+        for i in range(9):
+            self.state[i + side * 9] = "0"
