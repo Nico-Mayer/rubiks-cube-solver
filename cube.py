@@ -1,9 +1,10 @@
 import kociemba
 
+# Empty 000000000000000000000000000000000000000000000000000000
 # Test1 BDBBUFLBFDDRURBUFLDULDFLURBRFLBDURRFRLBLLLFRFDRUDBFUUD
 
 class Cube:
-    state = list("BDBBUFLBFDDRURBUFLDULDFLURBRFLBDURRFRLBLLLFRFDRUDBFUUD")
+    state = list("000000000000000000000000000000000000000000000000000000")
     
     def __str__(self) -> str:
         return ''.join(self.state)
@@ -23,8 +24,8 @@ class Cube:
                 color_string += "O"
             elif char == "U":
                 color_string += "R"
-            else:
-                color_string += "error"
+            elif char == "0":
+                color_string += "0"
         return color_string
     
     def get_solution(self):
