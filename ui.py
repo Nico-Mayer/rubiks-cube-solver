@@ -1,9 +1,15 @@
+from cv2.typing import MatLike
+
 from colors import COLORS
+from cube import Cube
+from system_state import Mode, Selected_Side
 from utils import render_rect, render_text
 
 
 class UI:
-    def render(self, frame, cube, selected_side, mode):
+    def render(
+        self, frame: MatLike, cube: Cube, selected_side: Selected_Side, mode: Mode
+    ):
         render_info(frame, selected_side, mode)
 
         if mode.is_scan():
@@ -11,7 +17,7 @@ class UI:
                 render_side(frame, cube, selected_side, i)
 
 
-def render_side(frame, cube, selected_side, index):
+def render_side(frame: MatLike, cube: Cube, selected_side: Selected_Side, index: int):
     cell_size = 20
     spacing = 2
     start_positions = [(80, 15), (150, 85), (80, 85), (80, 155), (10, 85), (220, 85)]
@@ -31,7 +37,7 @@ def render_side(frame, cube, selected_side, index):
         render_rect(frame, (start_x - 2, start_y - 2), 65, 65, (0, 0, 255), 2)
 
 
-def render_info(frame, selected_side, mode):
+def render_info(frame: MatLike, selected_side: Selected_Side, mode: Mode):
     height, width, _ = frame.shape
     render_rect(frame, (width - 200, 0), 200, height, (0, 0, 0), -1)
     render_text(frame, "Controls:", (width - 190, 30))

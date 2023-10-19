@@ -1,42 +1,42 @@
-class MODE:
+class Mode:
     CALIBRATION = 1
     SCAN = 2
 
     def __init__(self):
-        self.mode = MODE.SCAN
+        self.mode = Mode.SCAN
 
     def change(self):
-        if self.mode == MODE.CALIBRATION:
-            self.mode = MODE.SCAN
-        elif self.mode == MODE.SCAN:
-            self.mode = MODE.CALIBRATION
+        if self.mode == Mode.CALIBRATION:
+            self.mode = Mode.SCAN
+        elif self.mode == Mode.SCAN:
+            self.mode = Mode.CALIBRATION
 
     def set_mode(self, mode):
         self.mode = mode
 
-    def get_mode(self):
-        if self.mode == MODE.CALIBRATION:
+    def get_mode(self) -> str:
+        if self.mode == Mode.CALIBRATION:
             return "CALIBRATION"
-        elif self.mode == MODE.SCAN:
+        else:
             return "SCAN"
 
-    def is_calibration(self):
-        return self.mode == MODE.CALIBRATION
+    def is_calibration(self) -> bool:
+        return self.mode == Mode.CALIBRATION
 
-    def is_scan(self):
-        return self.mode == MODE.SCAN
+    def is_scan(self) -> bool:
+        return self.mode == Mode.SCAN
 
 
-class SELECTED_SIDE:
-    index = 0
+class Selected_Side:
+    index: int = 0
 
     def next(self):
         self.index += 1
         if self.index >= 6:
             self.index = 0
 
-    def get_index(self):
+    def get_index(self) -> int:
         return self.index
 
-    def get_side(self):
+    def get_side(self) -> str:
         return ["UP", "Right", "Front", "Down", "Left", "Back"][self.index]

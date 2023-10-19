@@ -9,7 +9,7 @@ class Cube:
     def __str__(self) -> str:
         return "".join(self.state)
 
-    def get_color_string(self):
+    def get_color_string(self) -> str:
         color_string = ""
         for char in self.state:
             if char == "F":
@@ -28,7 +28,7 @@ class Cube:
                 color_string += "0"
         return color_string
 
-    def get_solution(self):
+    def get_solution(self) -> str:
         try:
             return kociemba.solve("".join(self.state))
         except:

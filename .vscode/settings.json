@@ -12,7 +12,15 @@
 		"**/.factorypath": true
 	},
 	"hide-files.files": [],
-	"cSpell.words": ["dtype", "imread", "kociemba", "linalg", "pydub"],
-	"python.analysis.typeCheckingMode": "off",
+	"cSpell.words": [
+		"astype",
+		"dtype",
+		"imread",
+		"kociemba",
+		"linalg",
+		"ndarray",
+		"pydub"
+	],
+	"python.analysis.typeCheckingMode": "basic",
 	"python.analysis.autoImportCompletions": true
 }
