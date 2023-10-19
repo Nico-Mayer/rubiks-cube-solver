@@ -19,7 +19,9 @@
 		"kociemba",
 		"linalg",
 		"ndarray",
-		"pydub"
+		"numpy",
+		"pydub",
+		"rubiks"
 	],
 	"python.analysis.typeCheckingMode": "basic",
 	"python.analysis.autoImportCompletions": true
