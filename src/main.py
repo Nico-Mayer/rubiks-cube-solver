@@ -2,11 +2,16 @@ import cv2
 import numpy as np
 from cv2.typing import MatLike
 
-from colors import CALIBRATED_COLORS, COLORS, MAPPING
-from cube import Cube
-from system_state import Mode, Selected_Side
-from ui import UI
-from utils import calculate_dominant_color, euclidean_distance, render_rect, render_text
+from utils.colors import CALIBRATED_COLORS, COLORS, MAPPING
+from utils.cube import Cube
+from utils.helper import (
+    calculate_dominant_color,
+    euclidean_distance,
+    render_rect,
+    render_text,
+)
+from utils.system_state import Mode, Selected_Side
+from utils.ui import UI
 
 RECT_SIZE = 120
 RECT_SPACING = 10

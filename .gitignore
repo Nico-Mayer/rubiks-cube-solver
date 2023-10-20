@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+__pycache__/  # Ignore pycache in subdirectories
+
+# Environment variables file (if any)
+.env
+
+# IDE-specific files and directories
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Compiled Python files
+*.pyc
+
+# Log files
+*.log
+
+# User-specific files and directories
+*.swp
+.DS_Store
+
+# Ignore compiled binaries and libraries
+*.pyd
+*.so
+*.dll
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/

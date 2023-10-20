@@ -1,5 +1,3 @@
-import re
-
 import cv2
 import numpy as np
 from cv2.typing import MatLike, Point, Scalar

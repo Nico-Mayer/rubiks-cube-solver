@@ -1,9 +1,9 @@
 from cv2.typing import MatLike
 
-from colors import COLORS
-from cube import Cube
-from system_state import Mode, Selected_Side
-from utils import render_rect, render_text
+from utils.colors import COLORS
+from utils.cube import Cube
+from utils.helper import render_rect, render_text
+from utils.system_state import Mode, Selected_Side
 
 
 class UI:
