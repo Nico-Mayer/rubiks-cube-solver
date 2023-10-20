@@ -8,8 +8,8 @@ __pycache__/  # Ignore pycache in subdirectories
 .env
 
 # IDE-specific files and directories
-.vscode/
-.idea/
+.vscode
+.idea
 *.suo
 *.ntvs*
 *.njsproj
