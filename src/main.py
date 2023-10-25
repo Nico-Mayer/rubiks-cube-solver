@@ -14,8 +14,8 @@ from utils.system_state import Mode, Selected_Side
 from utils.ui import UI
 
 RECT_SIZE = 120
-RECT_SPACING = 10
-CAM_INDEX = 1
+RECT_SPACING = 5
+CAM_INDEX = 0
 
 
 def calibrate(frame: MatLike, pressed_key: int):

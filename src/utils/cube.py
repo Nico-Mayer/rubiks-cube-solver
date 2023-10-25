@@ -37,6 +37,6 @@ class Cube:
     def reset_full(self):
         self.state = list("000000000000000000000000000000000000000000000000000000")
 
-    def reset_side(self, side):
+    def reset_side(self, side: int):
         for i in range(9):
             self.state[i + side * 9] = "0"

@@ -1,6 +1,6 @@
 # Rubiks Cube Solver
 
-This is the code for my rubiks cube solving robot. It uses a webcam to scan the cube, and then uses a Kociemba algorithm implementation to solve the cube. The robot will built using a Raspberry Pi 3, and will use stepper motors to rotate the cube.
+This is the code for my rubiks cube solving robot. It uses a webcam to scan the cube, and then uses a Kociemba algorithm implementation to solve the cube. The robot will be built using a Arduino, and use stepper motors to rotate the cube.
 
 ## Showcase
 
@@ -21,5 +21,5 @@ git clone https://github.com/nico-mayer/rubiks-cube-solver.git
 
 cd rubiks-cube-solver
 
-python main.py
+python src/main.py
 ```
