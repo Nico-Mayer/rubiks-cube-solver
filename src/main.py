@@ -43,7 +43,7 @@ def scan(
     closest_color = min(
         CALIBRATED_COLORS,
         key=lambda color: euclidean_distance(
-            CALIBRATED_COLORS[color], np.array(dominant_color)
+            np.array(CALIBRATED_COLORS[color]), np.array(dominant_color)
         ),
     )
 
@@ -83,7 +83,7 @@ def handle_keypress(
 
 def main():
     cube = Cube()
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) 
+    cap = cv2.VideoCapture(1)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
     ui = UI()

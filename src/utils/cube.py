@@ -31,7 +31,8 @@ class Cube:
     def get_solution(self) -> str:
         try:
             return kociemba.solve("".join(self.state))
-        except:
+        except Exception as e:
+            print(e)
             return "error"
 
     def reset_full(self):

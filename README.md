@@ -7,19 +7,16 @@ This is the code for my rubiks cube solving robot. It uses a webcam to scan the 
 Images of the robot will be added here once it is built.
 
 ## Getting Started
-
-You can run the code on your own computer, but you will need to install the following dependencies:
-
--   OpenCV `pip install opencv-python`
--   Numpy `pip install numpy`
--   Kociemba `pip install kociemba`
-
 Clone the repository to your computer, and run the main.py file. You will need to have a webcam connected to your computer.
 
-```bash
-git clone https://github.com/nico-mayer/rubiks-cube-solver.git
+cd into repo and install the following dependencies using uv.
 
-cd rubiks-cube-solver
+-   OpenCV `uv add opencv-python`
+-   Numpy `uv add numpy`
+-   Kociemba `uv add kociemba`
 
-python src/main.py
+### Run Project
+
+```sh
+uv run src/main.py
 ```

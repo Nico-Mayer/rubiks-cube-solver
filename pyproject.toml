@@ -1,0 +1,11 @@
+[project]
+name = "rubiks-cube-solver-old"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "kociemba>=1.2.1",
+    "opencv-python>=4.11.0.86",
+    "ruff>=0.9.7",
+]
