@@ -26,7 +26,7 @@ def render_cube_side(frame: MatLike, cube: Cube, index: int):
             val = cube.get_color_string()[index * 9 + row * 3 + col]
             color = COLORS[val]
             render_rect(frame, (x, y), cell_size, cell_size, color, -1)
-    if index == cube.get_selected_side_index():
+    if index == cube.get_selected_face_index():
         render_rect(frame, (start_x - 2, start_y - 2), 65, 65, (0, 0, 255), 2)
 
 
@@ -42,5 +42,5 @@ def render_info(frame: MatLike, cube: Cube):
     render_text(frame, "'Space' = Print Solution", (width - 190, 180))
     render_text(frame, "'R' = Reset side", (width - 190, 210))
     render_text(
-        frame, f"Selected: {cube.get_selected_side()}", (width - 190, height - 30)
+        frame, f"Selected: {cube.get_selected_face()}", (width - 190, height - 30)
     )

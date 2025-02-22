@@ -110,14 +110,14 @@ class ScanScene(Scene):
         if pressed_key == ord("m"):
             return "Calibrate"
         elif pressed_key == ord("\t"):
-            self.cube.next_side()
+            self.cube.next_face()
         elif pressed_key == 13:
-            self.cube.set_side(self.cube_side_matrix)
-            self.cube.next_side()
+            self.cube.set_face(self.cube_side_matrix)
+            self.cube.next_face()
         elif pressed_key == 32:
             print(f"Solution: {self.cube.get_solution()}")
         elif pressed_key == ord("r"):
-            self.cube.reset_side(self.cube.get_selected_side_index())
+            self.cube.reset_face(self.cube.get_selected_face_index())
 
 
 class CalibrateScene(Scene):

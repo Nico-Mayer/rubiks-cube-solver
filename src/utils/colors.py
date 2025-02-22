@@ -31,15 +31,15 @@ MAPPING: Dict[str, str] = {
 }
 
 
-def map_colors_to_sides(color_string: str) -> str:
-    """Map the colors in the color_string to their respective sides using the MAPPING dictionary."""
+def map_colors_to_faces(color_string: str) -> str:
+    """Map the colors in the color_string to their respective faces using the MAPPING dictionary."""
     return "".join(MAPPING.get(color, color) for color in color_string)
 
 
-def map_sides_to_colors(side_string: str) -> str:
-    """Convert the side string back to the original color string using the MAPPING dictionary."""
+def map_faces_to_colors(face_string: str) -> str:
+    """Convert the Cube face string back to the original color string using the MAPPING dictionary."""
     reverse_mapping = {v: k for k, v in MAPPING.items()}
-    return "".join(reverse_mapping.get(side, side) for side in side_string)
+    return "".join(reverse_mapping.get(face, face) for face in face_string)
 
 
 def calculate_dominant_color(image_section: np.ndarray) -> np.ndarray:
