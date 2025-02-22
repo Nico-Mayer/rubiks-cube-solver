@@ -2,9 +2,10 @@ import cv2
 
 from scene.scene import SceneManager
 
-RECT_SIZE: int = 120
-RECT_SPACING: int = 5
-CAM_INDEX: int = 1
+RECT_SIZE = 120
+RECT_SPACING = 5
+CAM_INDEX = 1
+MAX_FRAME_SIZE = 1000
 
 
 def main():

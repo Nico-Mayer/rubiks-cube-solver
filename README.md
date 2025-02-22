@@ -11,6 +11,7 @@ Clone the repository to your computer, and run the main.py file. You will need t
 
 cd into repo and install the following dependencies using uv.
 
+-   Tinker `py nativ (maybe needs to be installed on the system as brew install python-tk)`
 -   OpenCV `uv add opencv-python`
 -   Numpy `uv add numpy`
 -   Kociemba `uv add kociemba`
