@@ -1,14 +1,5 @@
 import cv2
-import numpy as np
 from cv2.typing import MatLike, Point, Scalar
-
-
-def euclidean_distance(color1: np.ndarray, color2: np.ndarray) -> float:
-    difference = color1 - color2
-
-    distance = np.linalg.norm(difference)
-
-    return float(distance)
 
 
 def render_text(
@@ -33,8 +24,3 @@ def render_rect(
     thickness: int = 1,
 ):
     cv2.rectangle(frame, pos, (pos[0] + w, pos[1] + h), color, thickness)
-
-
-def calculate_dominant_color(image_region: np.ndarray) -> np.uint8:
-    image_region = image_region.astype(np.float32)
-    return np.uint8(np.mean(image_region, axis=(0, 1)))

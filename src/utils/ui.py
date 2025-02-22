@@ -1,23 +1,16 @@
 from cv2.typing import MatLike
 
+from cube.cube import Cube
 from utils.colors import COLORS
-from utils.cube import Cube
 from utils.helper import render_rect, render_text
-from utils.system_state import Mode, Selected_Side
 
 
-class UI:
-    def render(
-        self, frame: MatLike, cube: Cube, selected_side: Selected_Side, mode: Mode
-    ):
-        render_info(frame, selected_side, mode)
-
-        if mode.is_scan():
-            for i in range(6):
-                render_side(frame, cube, selected_side, i)
+def render_cube(frame: MatLike, cube: Cube):
+    for i in range(6):
+        render_cube_side(frame, cube, i)
 
 
-def render_side(frame: MatLike, cube: Cube, selected_side: Selected_Side, index: int):
+def render_cube_side(frame: MatLike, cube: Cube, index: int):
     cell_size = 20
     spacing = 2
     start_positions = [(80, 15), (150, 85), (80, 85), (80, 155), (10, 85), (220, 85)]
@@ -33,24 +26,21 @@ def render_side(frame: MatLike, cube: Cube, selected_side: Selected_Side, index:
             val = cube.get_color_string()[index * 9 + row * 3 + col]
             color = COLORS[val]
             render_rect(frame, (x, y), cell_size, cell_size, color, -1)
-    if index == selected_side.get_index():
+    if index == cube.get_selected_side_index():
         render_rect(frame, (start_x - 2, start_y - 2), 65, 65, (0, 0, 255), 2)
 
 
-def render_info(frame: MatLike, selected_side: Selected_Side, mode: Mode):
+def render_info(frame: MatLike, cube: Cube):
     height, width, _ = frame.shape
     render_rect(frame, (width - 200, 0), 200, height, (0, 0, 0), -1)
     render_text(frame, "Controls:", (width - 190, 30))
     render_text(frame, "'Q' = Close Window", (width - 190, 60))
     render_text(frame, "'M' = Change Mode", (width - 190, 150))
-    render_text(frame, f"Mode: {mode.get_mode()}", (width - 190, height - 60))
-    if mode.is_scan():
-        render_text(frame, "'Enter' = Scan Side", (width - 190, 90))
-        render_text(frame, "'Tab' = Change Side", (width - 190, 120))
-        render_text(frame, "'Space' = Print Solution", (width - 190, 180))
-        render_text(frame, "'R' = Reset side", (width - 190, 210))
-        render_text(
-            frame, f"Selected: {selected_side.get_side()}", (width - 190, height - 30)
-        )
-    elif mode.is_calibration():
-        render_text(frame, "'Enter' = Print color", (width - 190, 90))
+    # render_text(frame, f"Mode: {mode.get_mode()}", (width - 190, height - 60))
+    render_text(frame, "'Enter' = Scan Side", (width - 190, 90))
+    render_text(frame, "'Tab' = Change Side", (width - 190, 120))
+    render_text(frame, "'Space' = Print Solution", (width - 190, 180))
+    render_text(frame, "'R' = Reset side", (width - 190, 210))
+    render_text(
+        frame, f"Selected: {cube.get_selected_side()}", (width - 190, height - 30)
+    )

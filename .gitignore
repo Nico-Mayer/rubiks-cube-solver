@@ -6,6 +6,9 @@ __pycache__/  # Ignore pycache in subdirectories
 
 # Environment variables file (if any)
 .env
+.venv
+.ruff_cache
+.ropeproject
 
 # IDE-specific files and directories
 .vscode

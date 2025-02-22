@@ -17,6 +17,11 @@ cd into repo and install the following dependencies using uv.
 
 ### Run Project
 
+Activate venv
+```sh
+source .venv/bin/activate
+```
+
 ```sh
 uv run src/main.py
 ```
