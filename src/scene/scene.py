@@ -18,7 +18,7 @@ class Scene:
     def on_exit(self):
         pass
 
-    def handle_input(self, frame: MatLike, pressed_key) -> Optional[str]:
+    def handle_input(self, key: str) -> Optional[str]:
         pass
 
     def update(self, frame: MatLike):
@@ -43,9 +43,9 @@ class SceneManager:
         self.current_scene = newScene
         self.current_scene.on_enter()
 
-    def handle_input(self, frame: MatLike, event):
+    def handle_input(self, key: str):
         if self.current_scene:
-            next_scene = self.current_scene.handle_input(frame, event)
+            next_scene = self.current_scene.handle_input(key)
             if next_scene:
                 self.change_scene(self.scenes[next_scene])
 
@@ -106,17 +106,17 @@ class ScanScene(Scene):
     def render_ui(self, frame: MatLike):
         render_cube(frame, self.cube)
 
-    def handle_input(self, frame, pressed_key):
-        if pressed_key == ord("m"):
+    def handle_input(self, key):
+        if key == "m":
             return "Calibrate"
-        elif pressed_key == ord("\t"):
+        elif key == "n":
             self.cube.next_face()
-        elif pressed_key == 13:
+        elif key == "Return":
             self.cube.set_face(self.cube_side_matrix)
             self.cube.next_face()
-        elif pressed_key == 32:
+        elif key == "Space":
             print(f"Solution: {self.cube.get_solution()}")
-        elif pressed_key == ord("r"):
+        elif key == "r":
             self.cube.reset_face(self.cube.get_selected_face_index())
 
 
@@ -158,8 +158,8 @@ class CalibrateScene(Scene):
         render_text(frame, f"Mode: {self.NAME}", (width - 190, height - 60))
         render_text(frame, "'Enter' = Print color", (width - 190, 90))
 
-    def handle_input(self, frame, pressed_key):
-        if pressed_key == ord("m"):
+    def handle_input(self, key):
+        if key == "m":
             return "Scan"
-        if pressed_key == 13:
+        if key == "Return":
             print(f"Color: {self.dominant_color}")

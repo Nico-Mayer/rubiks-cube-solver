@@ -1,39 +1,73 @@
+import tkinter as tk
+from tkinter import Event, scrolledtext
+
 import cv2
+from PIL import Image, ImageTk
 
 from scene.scene import SceneManager
 
-RECT_SIZE = 120
-RECT_SPACING = 5
-CAM_INDEX = 1
-MAX_FRAME_SIZE = 1000
 
+class OpenCVApp:
+    CAM_INDEX = 1
 
-def main():
-    cap = cv2.VideoCapture(CAM_INDEX)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Rubiks Cube Solver")
+        self.root.geometry("1600x800")
 
-    scene_manger = SceneManager()
+        # Sidebar
+        self.sidebar = tk.Frame(
+            self.root,
+            width=200,
+        )
+        self.sidebar.pack(side=tk.LEFT, fill=tk.Y)
 
-    while True:
-        ret, frame = cap.read()
+        self.info_box = scrolledtext.ScrolledText(self.sidebar, height=10, width=30)
+        self.info_box.pack(pady=10)
 
-        if not ret:
-            break
+        # Video Frame
+        self.video_label = tk.Label(self.root)
+        self.video_label.pack()
 
-        pressed_key = cv2.waitKey(1)
+        # OpenCV
+        self.cap = None
+        self.scene_manager = SceneManager()
 
-        scene_manger.handle_input(frame, pressed_key)
-        scene_manger.update(frame)
-        scene_manger.render_ui(frame)
+        # Keyboard Bindings
+        self.root.bind("<Key>", self.handle_keypress)
 
-        if pressed_key == ord("q"):
-            break
+        # Start
+        self.cap = cv2.VideoCapture(self.CAM_INDEX)
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+        self.update_frame()
 
-        cv2.imshow("Camera Feed", frame)
-    cap.release()
-    cv2.destroyAllWindows()
+    def update_frame(self):
+        if self.cap:
+            ret, frame = self.cap.read()
+            if ret:
+                self.scene_manager.update(frame)
+                self.scene_manager.render_ui(frame)
+
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                img = Image.fromarray(frame)
+                imgtk = ImageTk.PhotoImage(image=img)
+                self.video_label.imgtk = imgtk  # type: ignore
+                self.video_label.config(image=imgtk)
+
+            self.root.after(10, self.update_frame)
+
+    def handle_keypress(self, event: Event):
+        key = event.keysym
+        self.scene_manager.handle_input(key)
+        self.log_message(f"Key Pressed: {key}")
+
+    def log_message(self, message):
+        self.info_box.insert(tk.END, message + "\n")
+        self.info_box.yview(tk.END)
 
 
 if __name__ == "__main__":
-    main()
+    root = tk.Tk()
+    app = OpenCVApp(root)
+    root.mainloop()
