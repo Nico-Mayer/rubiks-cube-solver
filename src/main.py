@@ -29,10 +29,6 @@ class OpenCVApp:
         self.video_label = tk.Label(self.root)
         self.video_label.pack()
 
-        # OpenCV
-        self.cap = None
-        self.scene_manager = SceneManager()
-
         # Keyboard Bindings
         self.root.bind("<Key>", self.handle_keypress)
 
@@ -40,6 +36,7 @@ class OpenCVApp:
         self.cap = cv2.VideoCapture(self.CAM_INDEX)
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+        self.scene_manager = SceneManager()
         self.update_frame()
 
     def update_frame(self):
@@ -54,7 +51,6 @@ class OpenCVApp:
                 imgtk = ImageTk.PhotoImage(image=img)
                 self.video_label.imgtk = imgtk  # type: ignore
                 self.video_label.config(image=imgtk)
-
             self.root.after(10, self.update_frame)
 
     def handle_keypress(self, event: Event):

@@ -1,28 +1,30 @@
-# Rubiks Cube Solver
+# Rubik's Cube Solver
 
-This is the code for my rubiks cube solving robot. It uses a webcam to scan the cube, and then uses a Kociemba algorithm implementation to solve the cube. The robot will be built using a Arduino, and use stepper motors to rotate the cube.
+This repository contains the code for my Rubik's Cube solving robot. The robot uses a webcam to scan the cube and implements the Kociemba algorithm to solve it. The robot is built using an Arduino and stepper motors to rotate the cube.
 
 ## Showcase
 
 Images of the robot will be added here once it is built.
 
 ## Getting Started
-Clone the repository to your computer, and run the main.py file. You will need to have a webcam connected to your computer.
 
-cd into repo and install the following dependencies using uv.
+Clone the repository and ensure all dependencies are installed.
 
--   Tinker `py nativ (maybe needs to be installed on the system as brew install python-tk)`
--   OpenCV `uv add opencv-python`
--   Numpy `uv add numpy`
--   Kociemba `uv add kociemba`
+### System Dependencies
 
-### Run Project
+- Python-tk (optional): On some systems, you might need to install `python-tk` to run this application. Install it using your system's package manager.
 
-Activate venv
-```sh
-source .venv/bin/activate
-```
+### Running the Project
 
-```sh
-uv run src/main.py
-```
+Make sure [`uv`](https://docs.astral.sh/uv/getting-started/installation/) is installed on your system. This is optional, but the project was set up using [`uv`](https://docs.astral.sh/uv/getting-started/installation/) for easier management, so I recommend using it.
+
+1. Install dependencies and set up a virtual environment:
+    ```sh
+    uv sync
+    source .venv/bin/activate
+    ```
+
+2. Run the project:
+    ```sh
+    uv run src/main.py
+    ```

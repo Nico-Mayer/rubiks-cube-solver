@@ -1,5 +1,5 @@
 [project]
-name = "rubiks-cube-solver-old"
+name = "rubiks-cube-solver"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -10,6 +10,3 @@ dependencies = [
     "pillow>=11.1.0",
     "ruff>=0.9.7",
 ]
-
-[tool.ruff.lint]
-extend-select = ["I"]

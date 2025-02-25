@@ -130,7 +130,7 @@ wheels = [
 ]
 
 [[package]]
-name = "rubiks-cube-solver-old"
+name = "rubiks-cube-solver"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
