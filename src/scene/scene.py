@@ -2,7 +2,8 @@ from typing import Dict, Optional
 
 from cv2.typing import MatLike
 
-from cube.cube import Cube
+from cube.cube import Cube, Face
+from logger.logger import Logger
 from utils.colors import COLORS, calculate_dominant_color, process_image_section
 from utils.helper import (
     render_rect,
@@ -114,10 +115,14 @@ class ScanScene(Scene):
         elif key == "Return":
             self.cube.set_face(self.cube_side_matrix)
             self.cube.next_face()
-        elif key == "Space":
-            print(f"Solution: {self.cube.get_solution()}")
+        elif key == "space":
+            Logger.get_instance().log_message(f"Solution: {self.cube.get_solution()}")
         elif key == "r":
-            self.cube.reset_face(self.cube.get_selected_face_index())
+            face_index = self.cube.get_selected_face_index()
+            self.cube.reset_face(face_index)
+            Logger.get_instance().log_message(
+                f"Restet Cube face: Index:{face_index}, Face:{Face(face_index).name}"
+            )
 
 
 class CalibrateScene(Scene):

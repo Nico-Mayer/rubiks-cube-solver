@@ -4,6 +4,7 @@ from tkinter import Event, scrolledtext
 import cv2
 from PIL import Image, ImageTk
 
+from logger.logger import Logger
 from scene.scene import SceneManager
 
 
@@ -24,6 +25,7 @@ class OpenCVApp:
 
         self.info_box = scrolledtext.ScrolledText(self.sidebar, height=10, width=30)
         self.info_box.pack(pady=10)
+        self.logger = Logger(self.info_box)
 
         # Video Frame
         self.video_label = tk.Label(self.root)
@@ -55,12 +57,8 @@ class OpenCVApp:
 
     def handle_keypress(self, event: Event):
         key = event.keysym
+        self.logger.log_message(f"Key Pressed: {key}")
         self.scene_manager.handle_input(key)
-        self.log_message(f"Key Pressed: {key}")
-
-    def log_message(self, message):
-        self.info_box.insert(tk.END, message + "\n")
-        self.info_box.yview(tk.END)
 
 
 if __name__ == "__main__":
